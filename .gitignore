@@ -1,2 +1,4 @@
-__pycache__
+bin/
+*.dist-info/
+__pycache__/
 *.pyc
