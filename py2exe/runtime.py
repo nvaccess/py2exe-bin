@@ -417,10 +417,7 @@ class Runtime(object):
         # keys; we only need one of them in the archive.
         for mod in set(self.mf.modules.values()):
             if mod.__code__:
-                if hasattr(mod, "__path__"):
-                    path = mod.__name__.replace(".", "\\") + "\\__init__" + bytecode_suffix
-                else:
-                    path = mod.__name__.replace(".", "\\") + bytecode_suffix
+                path =mod.__dest_file__
                 stream = io.BytesIO()
                 stream.write(imp.get_magic())
                 if sys.version_info >= (3,7,0):
@@ -495,8 +492,8 @@ class Runtime(object):
             if self.options.verbose:
                 print("Copy %s to %s" % (pydll, destdir))
             shutil.copy2(pydll, dst)
-            with UpdateResources(dst, delete_existing=False) as resource:
-                resource.add_string(1000, "py2exe")
+#             with UpdateResources(dst, delete_existing=False) as resource:
+#                 resource.add_string(1000, "py2exe")
 
         if self.options.bundle_files == 3:
             # copy extension modules; they go to libdir
